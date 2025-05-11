@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sparrow - Sistema de Passagens de Barco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Hello World</h1>
+    <header class="BarraSuperior">
+        <div class="container BarraSuperior-Conteudo">
+            <div class="esquerda">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
+                <nav class="nav-links">
+                    <a href="/viagens">Passagens</a>
+                    <a href="/barcos">Embarcações</a>
+                    <a href="/ajuda">Ajuda</a>
+                </nav>
+            </div>
+            <div class="direita">
+                <a href="/login" class="btn-login">
+                    <span class="icon">👤</span> Entre ou Cadastre-se
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="introducao-inicial">
+        <h1>Bem-vindo ao Sparrow</h1>
+        <p>Seu sistema prático e confiável para compra de passagens de barco no Amazonas.</p>
+    </div>
+
 </body>
 </html>

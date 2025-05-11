@@ -1,0 +1,96 @@
+/* Barra amarela */
+.BarraSuperior {
+    background-color: #d9d914; 
+    padding: 10px 0;
+    color: white;
+}
+
+.BarraSuperior .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.BarraSuperior-Conteudo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.BarraSuperior .esquerda {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.BarraSuperior .logo {
+    height: 40px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.direita .btn-login {
+    background-color: #ecf409; /* Define a cor do botão de "Entrar ou Cadastra-se" */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.direita .btn-login:hover {
+    background-color: #a3b40e; /* A cor fica amarela quando o mouse passa por cima do botão */
+}
+
+.icon {
+    font-size: 1.2em;
+}
+
+/* Centraliza a mensagem "Bem-Vindo ao Sparrow" */
+.introducao-inicial {  
+    text-align: center;
+    margin-top: 100px; /* aumenta para descer mais */
+}
+
+.introducao-inicial h1 {
+    font-size: 2.5em;
+    color: #dee907;
+}
+
+.introducao-inicial p {
+    font-size: 1.2em;
+    color: #f1efef;
+}
+
+/* Imagem de fundo do texto */
+.introducao-inicial {
+    text-align: center;
+    margin: 1px; /* Estende a imagem até a barra amarela*/
+    padding: 120px 20px;
+    background-image: url('https://i0.wp.com/cabocloshousecolodge.com/wp-content/uploads/2022/08/encontro_das_aguas-AMAZONIA-REAL.jpg?fit=955%2C562&ssl=1.png'); /* Caminho relativo */
+    background-size: cover;
+    background-position: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 2px rgba(2, 2, 2, 0.7); /* para melhorar a leitura */
+}
+
+.introducao-inicial h1 {
+    font-size: 2.5em;    /* Cuida do tamanho da letra das boas vindas */
+    margin-bottom: 25px;
+}
+
+.introducao-inicial p {   /* Cuida do tamanho da letra do parágrafo */
+    font-size: 2.0em;
+}
