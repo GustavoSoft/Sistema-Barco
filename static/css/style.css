@@ -61,7 +61,7 @@
 /* Centraliza a mensagem "Bem-Vindo ao Sparrow" */
 .introducao-inicial {  
     text-align: center;
-    margin-top: 100px; /* aumenta para descer mais */
+    margin-top: 100px; /* aumenta o texto para descer mais */
 }
 
 .introducao-inicial h1 {
@@ -93,4 +93,48 @@
 
 .introducao-inicial p {   /* Cuida do tamanho da letra do parágrafo */
     font-size: 2.0em;
+}
+
+/* Seção retangular da páginal inicial */
+.filtro-viagem {
+    display: flex;
+    justify-content: center;
+    margin-top: -100px;  
+    padding: 40px 20px;
+    background-color: rgba(255, 255, 255, 0.95); /* branco quase opaco */
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.filtro-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.filtro-container select,
+.filtro-container button {
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    min-width: 180px;
+    cursor: pointer;
+}
+
+.filtro-container button {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.filtro-container button:hover {
+    background-color: #005fa3;
 }
