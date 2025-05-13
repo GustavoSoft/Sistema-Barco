@@ -1,6 +1,6 @@
 /* Barra amarela */
 .BarraSuperior {
-    background-color: #d9d914; 
+    background-color: #14b8d9; 
     padding: 10px 0;
     color: white;
 }
@@ -39,7 +39,7 @@
 }
 
 .direita .btn-login {
-    background-color: #ecf409; /* Define a cor do botão de "Entrar ou Cadastra-se" */
+    background-color: #09e8f4; /* Define a cor do botão de "Entrar ou Cadastra-se" */
     color: white;
     padding: 8px 16px;
     border-radius: 20px;
@@ -51,7 +51,7 @@
 }
 
 .direita .btn-login:hover {
-    background-color: #a3b40e; /* A cor fica amarela quando o mouse passa por cima do botão */
+    background-color: #0ea9b4; /* A cor fica amarela quando o mouse passa por cima do botão */
 }
 
 .icon {
@@ -94,6 +94,54 @@
 .introducao-inicial p {   /* Cuida do tamanho da letra do parágrafo */
     font-size: 2.0em;
 }
+
+.Detalhes h1 {
+    font-size: 2.5em;
+    color: #dee907; 
+}
+
+.servicos {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  background-color: #f9f9f9;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 300px;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin-top: 15px;
+  font-size: 20px;
+  color: #111;
+}
+
+.card p {
+  font-size: 16px;
+  color: #444;
+  margin: 10px 0;
+}
+
 
 /* Seção retangular da páginal inicial */
 .filtro-viagem {
