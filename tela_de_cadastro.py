@@ -23,7 +23,7 @@ class TelaInicial(QWidget):
         titulo.setFont(QFont("Arial", 18))
 
         subtitulo = QLabel("Escolha uma opcao para continuar:")
-        subtitulo.setFont(QFont("Ariel",12))
+        subtitulo.setFont(QFont("Arial",12))
 
         botao_cliente = QPushButton("Sou Cliente")
         botao_cliente.setStyleSheet("background-color: #0275d8; color: Whiter; padding:10X; ; font-size: 14px")
