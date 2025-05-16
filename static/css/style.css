@@ -61,6 +61,75 @@
     font-size: 1.2em;
 }
 
+/* Esta parte se trata da estilização do  */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-container {
+    background: white;
+    display: flex;
+    width: 800px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.modal-imagem {
+    width: 40%;
+    background: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-imagem img {
+    width: 100%;
+    height: auto;
+}
+
+.modal-conteudo {
+    width: 60%;
+    padding: 30px;
+    position: relative;
+}
+
+.botoes-escolha button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.formulario {
+    margin-top: 20px;
+}
+
+.formulario input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.fechar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ccc;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
 /* Centraliza a mensagem "Bem-Vindo ao Sparrow" */
 .introducao-inicial {  
     text-align: center;

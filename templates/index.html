@@ -17,12 +17,64 @@
                 </nav>
             </div>
             <div class="direita">
-                <a href="/cadastro" class="btn-login">
+                <button class="btn-login" onclick="abrirModal()">
                     <span class="icon">👤</span> Entre ou Cadastre-se
-                </a>
+                </button>
             </div>
         </div>
     </header>
+
+    <div id="modalCadastro" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+        <div class="modal-imagem">
+            <img src="{{ url_for('static', filename='img/modal-barco.png') }}" alt="Barco">
+            <p>Já é cadastrado? <a href="#" onclick="fecharModal()">Fazer login</a></p>
+        </div>
+        <div class="modal-conteudo">
+            <h2>Bem-vindo ao Sparrow!</h2>
+            <p>Escolha como deseja se cadastrar:</p>
+            <div class="botoes-escolha">
+                <button onclick="mostrarFormulario('cliente')">Sou Cliente</button>
+                <button onclick="mostrarFormulario('barco')">Sou Dono do Barco</button>
+            </div>
+
+            <form id="form-cliente" class="formulario" method="POST" action="{{ url_for('cadastro_cliente') }}" style="display: none;">
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="password" name="senha" placeholder="Senha" required>
+                <button type="submit">Cadastrar Cliente</button>
+            </form>
+
+            <form id="form-barco" class="formulario" method="POST" action="{{ url_for('cadastro_barco') }}" style="display: none;">
+                <input type="text" name="chave" placeholder="Chave de Acesso" required>
+                <input type="text" name="nome" placeholder="Nome do Barco" required>
+                <input type="text" name="capacidade" placeholder="Capacidade" required>
+                <input type="text" name="dono" placeholder="Nome do Dono" required>
+                <button type="submit">Cadastrar Barco</button>
+            </form>
+
+            <button class="fechar" onclick="fecharModal()">X</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModal() {
+        document.getElementById('modalCadastro').style.display = 'flex';
+    }
+
+    function fecharModal() {
+        document.getElementById('modalCadastro').style.display = 'none';
+        document.getElementById('form-cliente').style.display = 'none';
+        document.getElementById('form-barco').style.display = 'none';
+    }
+
+    function mostrarFormulario(tipo) {
+        document.getElementById('form-cliente').style.display = tipo === 'cliente' ? 'block' : 'none';
+        document.getElementById('form-barco').style.display = tipo === 'barco' ? 'block' : 'none';
+    }
+</script>
+
 
     <div class="introducao-inicial">
         <h1>Bem-vindo ao Sparrow</h1>
