@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Escolha de Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2>Bem-vindo ao Sparrow</h2>
+    <p>Escolha uma opção para continuar:</p>
+
+    <a href="{{ url_for('cadastro_cliente') }}" class="btn-login">Sou Cliente</a>
+
+    <form action="{{ url_for('cadastro_barco') }}" method="post">
+        <input type="password" name="chave" placeholder="Chave de acesso" required>
+        <button type="submit" class="btn-login">Sou Dono de Barco</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p class="flash {{ category }}">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</body>
+</html>
