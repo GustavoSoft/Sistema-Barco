@@ -31,6 +31,22 @@ def cadastro_barco():
     flash(f'Barco cadastrado: {nome} - Capacidade: {capacidade} - Dono: {dono}', 'success')
     return redirect(url_for('home'))
 
+@app.route('/login-cliente', methods=['POST'])
+def login_cliente():
+    email = request.form['email']
+    senha = request.form['senha']
+    flash(f'Login de cliente: {email}', 'success')
+    return redirect(url_for('home'))
+
+@app.route('/login-barco', methods=['POST'])
+def login_barco():
+    chave = request.form['chave']
+    if chave != 'SPARROW123':
+        flash('Chave inválida para login de dono de barco.', 'error')
+    else:
+        flash('Login do Dono do Barco realizado com sucesso!', 'success')
+    return redirect(url_for('home'))
+
 if __name__ == '__main__':
     app.run(debug=True)
 
