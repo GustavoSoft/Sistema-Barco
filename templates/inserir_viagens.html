@@ -8,37 +8,42 @@
     <style>
        body{
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-       }
-       .cotainer{
-        background:white;
-        padding: 20px 30px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        width: 400px;
+        margin: 30px;      
        }
        h2{
         text-align: center;
-        color: #333;
+         
        }
-       input,button,select{
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
+       form{
+        max-width: 500px;
+        margin: 0 auto;
+       }
+       label{
+        display: block;
+        margin-top: 20px;
+        font-weight: bold;
+       }
+       input{
+         width: 100%;
+         padding: 10px;
+         margin-top: 5px;
+         box-sizing: border-box;
         }
         button{
             background-color: #0275d8;
             color:white;
-            font-weight: bold;
+            padding: 12px;
+            margin-top: 25px;
+            border:none;
+            width: 100px;
+            font-size: 16px;
+            cursor: pointer;
         }
-        
-
+        button:hover{
+            background-color: #0077aa;
+        }
+      
+       
     </style>
 </head>
 <body>
@@ -48,14 +53,28 @@
     <h2>Cadastro de viagem</h2>
      
     <!--Campos para preencher as informações de viagem-->
-    <input type="text" id="nomeBarco" placeholder="Nome do Barco">
-    <input type="date" id="dataSaida" placeholder="Data de Saída">
-    <input type="date" id="dataChegada" placeholder="Data de Chegada">
-    <input type="text" id="localPartida" placeholder="Local de Partida">
-    <input type="text" id="localChegada" placeholder="Local de Chegada">
-    <input type="time" id="horario" placeholder="Horario">
-    <input type="number" id="preco" placeholder="Preço da Viagem">
+  <!-- Campos para preencher as informações da viagem -->
+<input type="text" id="nomeBarco" placeholder="Nome do Barco">
+
+<!-- Campo de data de saída com explicação -->
+<label for="dataSaida">Data de Saída:</label>
+<!-- O usuário deve informar aqui a data em que o barco sairá do local de origem -->
+<input type="date" id="dataSaida" placeholder="Data de Saída">
+
+<!-- Campo de data de chegada com explicação -->
+<label for="dataChegada">Data de Chegada:</label>
+<!-- O usuário deve informar aqui a data prevista de chegada ao destino -->
+
+<input type="date" id="dataChegada" placeholder="Data de Chegada">
+
+<input type="text" id="localPartida" placeholder="Local de Partida">
+<label for="localChegada">Desitino</label>
+<input type="text" id="localChegada" placeholder="Local de Chegada">
+<label for="horario">Horario de saida</label>
+<input type="time" id="horario" placeholder="Horário">
+<input type="number" id="preco" placeholder="Preço da Viagem">
     
+
     <!--Botão que chama a função para cadastro viagem-->
     <button onclick="cadastroViagem()">Cadastrar Viagem</button>
     
@@ -98,3 +117,4 @@
 </script>
 </body>
 </html>
+    
