@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"
+    <title>Cadastro de viagem - Sparrow</title>
+
+    <!--Estilo de pagína(cores, fonte, layout)-->
+    <style>
+       body{
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+       }
+       .cotainer{
+        background:white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 400px;
+       }
+       h2{
+        text-align: center;
+        color: #333;
+       }
+       input,button,select{
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        }
+        button{
+            background-color: #0275d8;
+            color:white;
+            font-weight: bold;
+        }
+        
+
+    </style>
+</head>
+<body>
+
+    <!--Container principal de tela-->
+<div class="container">
+    <h2>Cadastro de viagem</h2>
+     
+    <!--Campos para preencher as informações de viagem-->
+    <input type="text" id="nomeBarco" placeholder="Nome do Barco">
+    <input type="date" id="dataSaida" placeholder="Data de Saída">
+    <input type="date" id="dataChegada" placeholder="Data de Chegada">
+    <input type="text" id="localPartida" placeholder="Local de Partida">
+    <input type="text" id="localChegada" placeholder="Local de Chegada">
+    <input type="time" id="horario" placeholder="Horario">
+    <input type="number" id="preco" placeholder="Preço da Viagem">
+    
+    <!--Botão que chama a função para cadastro viagem-->
+    <button onclick="cadastroViagem()">Cadastrar Viagem</button>
+    
+    <!-- Local onde vai aparecer a menssagem de confirmação -->
+     <div id="resultado" style="margin-top: 20px;color:#0275d8;"></div>
+
+</div>
+
+<!--Codigo JarvaScrip que processa os dados-->
+<script>
+    //Função chamada quando o usuario clica no botão "Castrar Viagem"
+    function cadastroViagem(){
+        // Pegar os valores digitados nos campos 
+        const nomeBarco=
+        document.getElementById('nomeBarco').value;
+        const dataSaida=
+        document.getElementById('dataSaida').value;
+        const dataChegada=
+        document.getElementById('dataChegada').value;
+        const localPartida=
+        document.getElementById('localPartida').value;
+        const localChegada=
+        document.getElementById('localChegada').value;
+        const horario=
+        document.getElementById('horario').value;
+        const preco =
+        document.getElementById('horario').value;
+
+        // Exibe uma mensagem com os dados de viagem(prototipo)
+        document.getElementById('resuldato').innerHTML=`
+        Viagem cadastrada:<br>
+        Barco: ${nomeBarco}<br>
+        Partida: ${localPartida} em ${dataSaida} ás ${horario}<br>
+        Chegada: ${localChegada} em ${dataChegada}<br>
+        Preço>: R$ ${preco}
+        ;`
+    
+    }
+    
+</script>
+</body>
+</html>
