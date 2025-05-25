@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Gerenciamento</title>
+</head>
+<body>
+    <h2>Painel de Gerenciamento de Viagens</h2>
+
+    {% for v in viagens %}
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+            <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
+            <p><strong>Origem:</strong> {{ v.origem }}</p>
+            <p><strong>Destino:</strong> {{ v.destino }}</p>
+            <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
+            <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
+
+            <form method="POST" action="{{ url_for('remover_viagem', id=v.id) }}" style="display:inline;">
+                <button type="submit" onclick="return confirm('Tem certeza que deseja remover esta viagem?')">Remover</button>
+            </form>
+
+            <a href="{{ url_for('editar_viagem', id=v.id) }}">Editar</a>
+        </div>
+    {% endfor %}
+</body>
+</html>

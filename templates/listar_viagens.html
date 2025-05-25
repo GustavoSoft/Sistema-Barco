@@ -1,50 +1,49 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
+<html lang="pt-BR">
 <head>
-    <meta charset ="UTF-8">
+    <meta charset="UTF-8">
     <title>Buscar Passagem - Sparrow</title>
     <style>
         body {
-            font-family: Arial, san-serif;
+            font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #f4f4f4;
         }
         h2 {
             text-align: center;
-          }
-          .container {
+        }
+        .container {
             display: flex;
             gap: 20px;
-          }
-          .filtros{
+        }
+        .filtros {
             width: 250px;
             background-color: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 5px gray;
-          }
-          .resultado {
+        }
+        .resultado {
             flex: 1;
             background-color: white;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 5px gray;
-          }
-          label {
+        }
+        label {
             font-weight: bold;
             display: block;
             margin-top: 15px;
-          }
-          input[type="text"], input[type="date"],
-          input[type="time"]{
+        }
+        input[type="text"], input[type="date"] {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
-          }
-          .checkbox-group{
+        }
+        .checkbox-group {
             margin-top: 10px;
-          }
-          button{
+        }
+        button {
             background-color: #0275d8;
             color: white;
             padding: 10px;
@@ -53,156 +52,163 @@
             width: 100%;
             font-size: 16px;
             cursor: pointer;
-          }
-          button:hover {
+        }
+        button:hover {
             background-color: #005fa3;
-          }
-          .card{
-            border:1px solid #ccc;
+        }
+        .card {
+            border: 1px solid #ccc;
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 6px;
             background-color: #fdfdfd;
-          }
+        }
 
+        /* Fundo escuro por trás do modal */
+        #modalCompra {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* fundo escurecido */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Caixa do modal */
+        #modalCompra form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilos dos rótulos e campos */
+        #modalCompra label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #modalCompra input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* Botões do modal */
+        #modalCompra button {
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Botão de confirmação */
+        #modalCompra button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #modalCompra button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Botão de cancelar */
+        #modalCompra button[type="button"] {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        #modalCompra button[type="button"]:hover {
+            background-color: #c82333;
+        }
     </style>
-</head>   
-<body>    
+</head>
+<body>
 
- <h2>Buscar Passagem - Sparrow</h2>
+<h2>Buscar Passagem - Sparrow</h2>
 
 <div class="container">
-
     <!-- Filtros -->
     <div class="filtros">
         <h3>Filtros</h3>
+        <form method="GET" action="{{ url_for('listar_viagens') }}">
+            <label>Local de Partida</label>
+            <input type="text" name="partida" placeholder="Ex: Manaus" value="{{ request.args.get('partida', '') }}">
 
-        <label>Local de Partida</label>
-        <input type="text" id="partida" placeholder="Ex: Manaus">
+            <label>Destino</label>
+            <input type="text" name="destino" placeholder="Ex: Santarém" value="{{ request.args.get('destino', '') }}">
 
-        <label>Destino</label>
-        <input type="text" id="destino" placeholder="Ex: Santarém">
+            <label>Mês</label>
+            <input type="month" name="mes" value="{{ request.args.get('mes', '') }}">
 
-        <label>Data</label>
-        <Input type="date" id="data">
+            <!-- Você pode adicionar mais filtros aqui futuramente -->
 
-        <label>Tipo de Embarcação</label>
-        <div class="checkbox-group">
-            <input type="checkbox" id="ferry"> Ferry boat <br>
-            <input type="checkbox" id="lancha"> Lancha <br>
-            <input type="checkbox" id="barco"> Barco <br>
-            <input type="checkbox" id="balsa"> Balsa
-        </div>
-
-        <label>Preço</label>
-        <div class="checkbox-group">
-            <input type="checkbox" id="preco1"> R$ 0 - 100 <br>
-            <input type="checkbox" id="preco2"> R$ 100 - 200 <br>
-            <input type="checkbox" id="preco3"> R$ 200 - 300 <br>
-            <input type="checkbox" id="preco4"> R$ 300 - 400 <br>
-            <input type="checkbox" id="preco5"> R$ 400 - 500
-        </div>
-
-        
-
-        <button onclick="buscar()">Buscar</button>
+            <button type="submit">Buscar</button>
+        </form>
     </div>
 
-    <!-- Resultado -->
+    <!-- Resultados -->
     <div class="resultado">
         <h3>Resultados da Busca</h3>
-        <div id="resultadoBusca"></div>
+        <div id="resultadoBusca">
+            {% if viagens %}
+                {% for viagem in viagens %}
+                    <div class="card">
+                        <strong>{{ viagem.barco.nome }}</strong><br>
+                        De: {{ viagem.origem }} Para: {{ viagem.destino }}<br>
+                        Saída: {{ viagem.data_partida.strftime('%d/%m/%Y') }} às {{ viagem.hora_partida.strftime('%H:%M') }}<br>
+                        Preço: R$ {{ viagem.preco_passagem }}<br>
+                        Tipo: {{ viagem.barco.tipo or "Barco" }}<br>
+                        
+                        <button onclick="abrirModalCompra({{ viagem.id }})">Comprar</button>
+
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhuma viagem encontrada.</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 
+<!-- Modal de Compra -->
+<div id="modalCompra" style="display: none;">
+    <form method="POST" action="{{ url_for('comprar_passagem') }}">
+        <input type="hidden" name="viagem_id" id="viagem_id">
+        <label>Nome do Passageiro:</label>
+        <input type="text" name="nome_passageiro" required>
+        <label>Documento (RG ou CPF):</label>
+        <input type="text" name="documento" required>
+        <button type="submit">Confirmar Compra</button>
+        <button type="button" onclick="fecharModalCompra()">Cancelar</button>
+    </form>
+</div>
+
 <script>
-    // Dados simulados dos barcos cadastrados
-    const viagens = [
-        {
-            nome: "Barco Amazonas",
-            partida: "Manaus",
-            destino: "Santarém",
-            data: "2025-06-04",
-            horario: "08:00",
-            preco: 300,
-            tipo: "Barco",
-            acomodacao: ["Rede", "Poltrona"]
-        },
-        {
-            nome: "Lancha Rápida",
-            partida: "Manaus",
-            destino: "Santarém",
-            data: "2025-06-05",
-            horario: "10:00",
-            preco: 450,
-            tipo: "Lancha",
-            acomodacao: ["Suíte"]
-        },
-        {
-            nome: "Ferry do Norte",
-            partida: "Manaus",
-            destino: "Belém",
-            data: "2025-06-10",
-            horario: "09:00",
-            preco: 150,
-            tipo: "Ferry boat",
-            acomodacao: ["Poltrona", "Rede"]
-        }
-    ];
+    function abrirModalCompra(viagemId) {
+        document.getElementById("viagem_id").value = viagemId;
+        document.getElementById("modalCompra").style.display = "block";
+    }
 
-    function buscar() {
-        const partida = document.getElementById('partida').value.toLowerCase();
-        const destino = document.getElementById('destino').value.toLowerCase();
-        const data = document.getElementById('data').value;
-
-        const tiposSelecionados = [];
-        if (ferry.checked) tiposSelecionados.push("Ferry boat");
-        if (lancha.checked) tiposSelecionados.push("Lancha");
-        if (barco.checked) tiposSelecionados.push("Barco");
-        if (balsa.checked) tiposSelecionados.push("Balsa");
-
-        const precosSelecionados = [];
-        if (preco1.checked) precosSelecionados.push([0, 100]);
-        if (preco2.checked) precosSelecionados.push([100, 200]);
-        if (preco3.checked) precosSelecionados.push([200, 300]);
-        if (preco4.checked) precosSelecionados.push([300, 400]);
-        if (preco5.checked) precosSelecionados.push([400, 500]);
-
-     
-        const resultado = viagens.filter(v => {
-            const partidaOk = !partida || v.partida.toLowerCase().includes(partida);
-            const destinoOk = !destino || v.destino.toLowerCase().includes(destino);
-            const dataOK = !data || v.data === data;
-            const tipoOk = tiposSelecionados.length === 0 || tiposSelecionados.includes(v.tipo);
-            const precoOk = precosSelecionados.length === 0 || precosSelecionados.some(r => v.preco >= r[0] && v.preco <= r[1]);
-            
-
-            return partidaOk && destinoOk && dataOK && tipoOk && precoOk;
-        });
-
-        const divResultado = document.getElementById('resultadoBusca');
-        divResultado.innerHTML = '';
-
-        if (resultado.length === 0) {
-            divResultado.innerHTML = '<p>Nenhuma viagem encontrada.</p>';
-            return;
-        }
-
-        resultado.forEach(v => {
-            divResultado.innerHTML += `
-                <div class="card">
-                    <strong>${v.nome}</strong><br>
-                    De: ${v.partida} Para: ${v.destino}<br>
-                    Data: ${v.data} às ${v.horario}<br>
-                    Preço: R$ ${v.preco}<br>
-                    Tipo: ${v.tipo}<br>
-                  
-                </div>
-            `;
-        });
+    function fecharModalCompra() {
+        document.getElementById("modalCompra").style.display = "none";
     }
 </script>
 
 </body>
-</html>    
-     
+</html>

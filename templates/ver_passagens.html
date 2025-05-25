@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Minhas Passagens</h2>
+{% for compra in compras %}
+    <div class="passagem">
+        <p><strong>Viagem:</strong> {{ compra.viagem.origem }} → {{ compra.viagem.destino }}</p>
+        <p><strong>Data:</strong> {{ compra.viagem.data_partida.strftime('%d/%m/%Y') }}</p>
+        <p><strong>Passageiro:</strong> {{ compra.nome_passageiro }}</p>
+        <p><strong>Documento:</strong> {{ compra.documento }}</p>
+        <form method="POST" action="{{ url_for('cancelar_compra') }}">
+            <input type="hidden" name="compra_id" value="{{ compra.id }}">
+            <button type="submit">Cancelar Compra</button>
+        </form>
+    </div>
+{% else %}
+    <p>Você ainda não comprou nenhuma passagem.</p>
+{% endfor %}
+
+</body>
+</html>

@@ -18,12 +18,45 @@
                 </nav>
             </div>
             <div class="direita">
-                <a href="#" class="btn-login" onclick="abrirModal()">
-                    <span class="icon">👤</span> Entre ou Cadastre-se
-                </a>
+                {% if session.get('usuario_id') %}
+                    <div class="menu-usuario">
+                        <button onclick="toggleMenu()" class="btn-login">
+                            <span class="icon">👤</span> {{ session.get('usuario_nome') }}
+                        </button>
+                        <div id="menu-dropdown" class="dropdown-menu" style="display: none;">
+                            {% if session.get('usuario_tipo') == 'dono_barco' %}
+                                <a href="{{ url_for('gerenciar_viagens') }}">Gerenciar Viagens</a>
+                                <a href="{{ url_for('painel_gerenciamento') }}">Painel de Gerenciamento</a>
+                            {% endif %}
+                            <a href="/ver-passagens">Ver Passagens</a>
+                            <a href="{{ url_for('logout') }}">Sair da Conta</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="#" class="btn-login" onclick="abrirModal()">
+                        <span class="icon">👤</span> Entre ou Cadastre-se
+                    </a>
+                {% endif %}
             </div>
         </div>
     </header>
+
+    <!-- Script relaciondo ao Login -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu-dropdown');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Fecha o menu se clicar fora dele
+        window.onclick = function(event) {
+            if (!event.target.closest('.menu-usuario')) {
+                const menu = document.getElementById('menu-dropdown');
+                if (menu) menu.style.display = 'none';
+            }
+        }
+    </script>
+
 
     <!-- Parte do HTML que cria o escopo do formulário Modal -->
 
@@ -56,10 +89,10 @@
 
             <!-- Cadastro Dono do Barco -->
             <form id="form-cadastro-barco" class="formulario" method="POST" action="{{ url_for('cadastro_barco') }}" style="display: none;">
+                <input type="text" name="nome" placeholder="Nome completo" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="senha" placeholder="Senha" required>
                 <input type="text" name="chave" placeholder="Chave de Acesso" required>
-                <input type="text" name="nome" placeholder="Nome do Barco" required>
-                <input type="text" name="capacidade" placeholder="Capacidade" required>
-                <input type="text" name="dono" placeholder="Nome do Dono" required>
                 <button type="submit">Cadastrar</button>
             </form>
 
@@ -72,6 +105,8 @@
 
             <!-- Login Dono -->
             <form id="form-login-barco" class="formulario" method="POST" action="{{ url_for('login_barco') }}" style="display: none;">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="senha" placeholder="Senha" required>
                 <input type="text" name="chave" placeholder="Chave de Acesso" required>
                 <button type="submit">Entrar</button>
             </form>
@@ -154,19 +189,19 @@
 
     <section class="filtro-viagem">
         <div class="filtro-container">
-            <select>
-                <option>Ponto de Partida</option> 
-                <!-- opções virão do backend futuramente -->
-            </select>
-            <select>
-                <option>Ponto de Chegada</option>
-            </select>
-            <select>
-                <option>Mês da Viagem</option>
-            </select>
-            <button>Procurar Viagem</button>
+            <form action="{{ url_for('listar_viagens') }}" method="get">
+                
+                <input type="text" name="partida" placeholder="Local da Partida" value="{{ request.args.get('partida', '') }}">
+
+                <input type="text" name="destino" placeholder="Destino" value="{{ request.args.get('destino', '') }}">
+
+                <input type="month" name="mes" value="{{ request.args.get('mes', '') }}">
+
+                <button type="submit">Procurar Viagem</button>
+            </form>
         </div>
     </section>
+
 
     <div class="Detalhes">
         <h1>Informações</h1>

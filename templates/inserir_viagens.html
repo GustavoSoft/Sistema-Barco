@@ -1,120 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8"
+    <meta charset="UTF-8">
     <title>Cadastro de viagem - Sparrow</title>
-
-    <!--Estilo de pagína(cores, fonte, layout)-->
     <style>
-       body{
+       body {
         font-family: Arial, sans-serif;
         margin: 30px;      
        }
-       h2{
+       h2 {
         text-align: center;
-         
        }
-       form{
+       form {
         max-width: 500px;
         margin: 0 auto;
        }
-       label{
+       label {
         display: block;
         margin-top: 20px;
         font-weight: bold;
        }
-       input{
+       input {
          width: 100%;
          padding: 10px;
          margin-top: 5px;
          box-sizing: border-box;
-        }
-        button{
-            background-color: #0275d8;
-            color:white;
-            padding: 12px;
-            margin-top: 25px;
-            border:none;
-            width: 100px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover{
-            background-color: #0077aa;
-        }
-      
-       
+       }
+       button {
+           background-color: #0275d8;
+           color: white;
+           padding: 12px;
+           margin-top: 25px;
+           border: none;
+           width: 100px;
+           font-size: 16px;
+           cursor: pointer;
+       }
+       button:hover {
+           background-color: #0077aa;
+       }
     </style>
 </head>
 <body>
 
-    <!--Container principal de tela-->
 <div class="container">
     <h2>Cadastro de viagem</h2>
-     
-    <!--Campos para preencher as informações de viagem-->
-  <!-- Campos para preencher as informações da viagem -->
-<input type="text" id="nomeBarco" placeholder="Nome do Barco">
-
-<!-- Campo de data de saída com explicação -->
-<label for="dataSaida">Data de Saída:</label>
-<!-- O usuário deve informar aqui a data em que o barco sairá do local de origem -->
-<input type="date" id="dataSaida" placeholder="Data de Saída">
-
-<!-- Campo de data de chegada com explicação -->
-<label for="dataChegada">Data de Chegada:</label>
-<!-- O usuário deve informar aqui a data prevista de chegada ao destino -->
-
-<input type="date" id="dataChegada" placeholder="Data de Chegada">
-
-<input type="text" id="localPartida" placeholder="Local de Partida">
-<label for="localChegada">Desitino</label>
-<input type="text" id="localChegada" placeholder="Local de Chegada">
-<label for="horario">Horario de saida</label>
-<input type="time" id="horario" placeholder="Horário">
-<input type="number" id="preco" placeholder="Preço da Viagem">
     
+    <!-- FORMULÁRIO que envia os dados para o Flask -->
+    <form method="POST" action="{{ url_for('cadastrar_viagem') }}">
+        <label for="nomeBarco">Nome do Barco:</label>
+        <input type="text" id="nomeBarco" name="nomeBarco" required>
 
-    <!--Botão que chama a função para cadastro viagem-->
-    <button onclick="cadastroViagem()">Cadastrar Viagem</button>
-    
-    <!-- Local onde vai aparecer a menssagem de confirmação -->
-     <div id="resultado" style="margin-top: 20px;color:#0275d8;"></div>
+        <label for="capacidade">Capacidade do Barco:</label>
+        <input type="number" id="capacidade" name="capacidade" required>
 
-</div>
+        <label for="dataSaida">Data de Saída:</label>
+        <input type="date" id="dataSaida" name="dataSaida" required>
 
-<!--Codigo JarvaScrip que processa os dados-->
-<script>
-    //Função chamada quando o usuario clica no botão "Castrar Viagem"
-    function cadastroViagem(){
-        // Pegar os valores digitados nos campos 
-        const nomeBarco=
-        document.getElementById('nomeBarco').value;
-        const dataSaida=
-        document.getElementById('dataSaida').value;
-        const dataChegada=
-        document.getElementById('dataChegada').value;
-        const localPartida=
-        document.getElementById('localPartida').value;
-        const localChegada=
-        document.getElementById('localChegada').value;
-        const horario=
-        document.getElementById('horario').value;
-        const preco =
-        document.getElementById('horario').value;
+        <label for="dataChegada">Data de Chegada:</label>
+        <input type="date" id="dataChegada" name="dataChegada">
 
-        // Exibe uma mensagem com os dados de viagem(prototipo)
-        document.getElementById('resuldato').innerHTML=`
-        Viagem cadastrada:<br>
-        Barco: ${nomeBarco}<br>
-        Partida: ${localPartida} em ${dataSaida} ás ${horario}<br>
-        Chegada: ${localChegada} em ${dataChegada}<br>
-        Preço>: R$ ${preco}
-        ;`
-    
-    }
-    
-</script>
+        <label for="localPartida">Local de Partida:</label>
+        <input type="text" id="localPartida" name="localPartida" required>
+
+        <label for="localChegada">Destino:</label>
+        <input type="text" id="localChegada" name="localChegada" required>
+
+        <label for="horario">Horário de Saída:</label>
+        <input type="time" id="horario" name="horario" required>
+
+        <label for="preco">Preço da Viagem:</label>
+        <input type="number" id="preco" name="preco" step="0.01" required>
+
+        <button type="submit">Cadastrar Viagem</button>
+    </form>
+
+    {% if viagens %}
+    <h3 style="text-align: center; margin-top: 40px;">Gerenciar Viagens</h3>
+    <div style="max-width: 700px; margin: 0 auto;">
+        {% for v in viagens %}
+            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
+                <p><strong>Origem:</strong> {{ v.origem }}</p>
+                <p><strong>Destino:</strong> {{ v.destino }}</p>
+                <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
+                <p><strong>Horário:</strong> {{ v.hora_partida.strftime('%H:%M') }}</p>
+                <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
 </body>
 </html>
+
     

@@ -15,7 +15,9 @@ class Barco(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     capacidade = db.Column(db.Integer, nullable=False)
-    dono_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
+    viagens = db.relationship('Viagem', backref='barco', lazy=True) # RELACIONAMENTO: um barco pode ter várias viagens
+
 
 class Viagem(db.Model):
     __tablename__ = 'viagens'
@@ -24,13 +26,19 @@ class Viagem(db.Model):
     origem = db.Column(db.String(100), nullable=False)
     destino = db.Column(db.String(100), nullable=False)
     data_partida = db.Column(db.Date, nullable=False)
+    data_chegada = db.Column(db.Date, nullable=True)
     hora_partida = db.Column(db.Time, nullable=False)
-    preco_passagem = db.Column(db.Numeric(10,2), nullable=False)
+    preco_passagem = db.Column(db.Float(10, 2), nullable=False)
 
-class Passagem(db.Model):
-    __tablename__ = 'passagens'
+class Compra(db.Model):
+    __tablename__ = 'compras'
     id = db.Column(db.Integer, primary_key=True)
-    cliente_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     viagem_id = db.Column(db.Integer, db.ForeignKey('viagens.id'), nullable=False)
-    quantidade = db.Column(db.Integer, nullable=False)
+    nome_passageiro = db.Column(db.String(100), nullable=False)
+    documento = db.Column(db.String(50), nullable=False)
     data_compra = db.Column(db.DateTime, default=datetime.utcnow)
+
+    usuario = db.relationship('Usuario', backref='compras')
+    viagem = db.relationship('Viagem', backref='compras')
+

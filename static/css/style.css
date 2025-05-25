@@ -81,6 +81,41 @@
     font-size: 1.2em;
 }
 
+/* Estilização relacionada ao Login */
+.menu-usuario {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 10px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column; /* <- isso garante que fiquem em coluna */
+    min-width: 180px;
+    gap: 6px; /* espaço entre os links (opcional) */
+}
+
+.dropdown-menu a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
 /* Esta parte se trata da estilização do Modal */
 .modal-overlay {
     position: fixed;
