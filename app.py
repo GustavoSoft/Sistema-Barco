@@ -6,6 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from flask import session
 from datetime import datetime
 from models import db, Barco, Viagem, Compra
+from werkzeug.utils import secure_filename
+import os
 
 from extensions import db
 from models import Usuario
@@ -21,6 +23,15 @@ db.init_app(app)
 @app.before_request
 def criar_tabelas():
     db.create_all()
+
+# Pasta onde as imagens serão salvas
+UPLOAD_FOLDER = os.path.join('static', 'imagens_embarcacoes')
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def home():
@@ -153,6 +164,16 @@ def cadastrar_viagem():
     destino = request.form['localChegada']
     hora_partida = datetime.strptime(request.form['horario'], '%H:%M').time()
     preco = request.form['preco']
+    tipo_embarcacao = request.form.get('tipo_embarcacao')
+    
+    # Processar o arquivo da imagem
+    imagem_file = request.files.get('imagem_embarcacao')
+    imagem_nome = None
+    if imagem_file and allowed_file(imagem_file.filename):
+        filename = secure_filename(imagem_file.filename)
+        imagem_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        imagem_file.save(imagem_path)
+        imagem_nome = filename  # Será salvo no banco apenas o nome do arquivo
 
     usuario_id = session['usuario_id']
 
@@ -170,7 +191,9 @@ def cadastrar_viagem():
         data_partida=data_partida,
         data_chegada=data_chegada,
         hora_partida=hora_partida,
-        preco_passagem=preco
+        preco_passagem=preco,
+        tipo_embarcacao=tipo_embarcacao,
+        imagem_embarcacao=imagem_nome
     )
 
     db.session.add(nova_viagem)
@@ -191,10 +214,19 @@ def editar_viagem(id):
         return redirect(url_for('painel_gerenciamento'))
 
     if request.method == 'POST':
+        viagem.barco.nome = request.form['nome_barco']
         viagem.origem = request.form['origem']
         viagem.destino = request.form['destino']
         viagem.data_partida = datetime.strptime(request.form['data_partida'], '%Y-%m-%d')
+        viagem.hora_partida = datetime.strptime(request.form['horario_partida'], '%H:%M').time()
         viagem.preco_passagem = float(request.form['preco_passagem'])
+
+        imagem_file = request.files.get('imagem_embarcacao')
+        if imagem_file and imagem_file.filename != '':
+            filename = secure_filename(imagem_file.filename)
+            caminho = os.path.join('static/imagens_embarcacoes', filename)
+            imagem_file.save(caminho)
+            viagem.imagem_embarcacao = filename
 
         db.session.commit()
         flash('Viagem atualizada com sucesso!', 'success')
@@ -233,6 +265,8 @@ def listar_viagens():
     partida = request.args.get('partida')
     destino = request.args.get('destino')
     mes = request.args.get('mes')
+    tipo = request.args.get('tipo')
+    preco_max = request.args.get('preco_max', type=float)
 
     query = Viagem.query.join(Barco)
 
@@ -247,6 +281,10 @@ def listar_viagens():
             query = query.filter(db.extract('month', Viagem.data_partida) == mes_numero)
         except (IndexError, ValueError):
             pass  # Ignora se o valor estiver malformado
+    if tipo:
+        query = query.filter(Barco.tipo_embarcacao.ilike(f"%{tipo}%"))
+    if preco_max is not None:
+        query = query.filter(Viagem.preco_passagem <= preco_max)
 
     viagens = query.all()
 
@@ -259,7 +297,8 @@ def listar_viagens():
             "data": v.data_partida.strftime("%Y-%m-%d"),
             "horario": v.hora_partida.strftime("%H:%M"),
             "preco": float(v.preco_passagem),
-            "tipo": "Barco"  # Pode personalizar se quiser
+            "tipo": v.tipo_embarcacao or "Barco",
+            "imagem": v.imagem_embarcacao or ""  # Caminho da imagem
         })
 
     return render_template("listar_viagens.html", resultados=resultados, viagens=viagens)

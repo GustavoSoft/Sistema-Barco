@@ -26,6 +26,10 @@
     margin-top: -10px;
     margin-left: -8px;
     margin-right: -8px;
+    height: 60px; /* altura fixa para a barra */
+    display: flex;
+    align-items: center; /* alinha verticalmente a logo */
+    box-sizing: border-box;
 }
 
 .BarraSuperior .container {
@@ -47,7 +51,9 @@
 }
 
 .BarraSuperior .logo {
-    height: 40px;
+    height: 110px;
+    width: auto;
+    max-height: 100%;
 }
 
 .nav-links a {

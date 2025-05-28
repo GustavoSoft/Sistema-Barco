@@ -57,27 +57,29 @@
             background-color: #005fa3;
         }
         .card {
+            display: flex; /* <-- aqui está a mudança principal */
+            justify-content: space-between;
+            align-items: center;
             border: 1px solid #ccc;
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 6px;
             background-color: #fdfdfd;
+            gap: 20px;
         }
 
         /* Fundo escuro por trás do modal */
         #modalCompra {
-            display: none;
             position: fixed;
             z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); /* fundo escurecido */
-            display: flex;
+            background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+            display: none; /* Modal fica escondido por padrão */
         }
 
         /* Caixa do modal */
@@ -90,6 +92,10 @@
             max-width: 400px;
             display: flex;
             flex-direction: column;
+        }
+
+        #modalCompra.ativo {
+            display: flex; /* Só exibe com a classe .ativo */
         }
 
         /* Estilos dos rótulos e campos */
@@ -156,6 +162,12 @@
             <label>Mês</label>
             <input type="month" name="mes" value="{{ request.args.get('mes', '') }}">
 
+            <label>Tipo de Embarcação</label>
+            <input type="text" name="tipo" placeholder="Ex: Lancha, Catamarã..." value="{{ request.args.get('tipo', '') }}">
+
+            <label>Preço Máximo (R$)</label>
+            <input type="text" name="preco_max" placeholder="Ex: 150" value="{{ request.args.get('preco_max', '') }}">
+
             <!-- Você pode adicionar mais filtros aqui futuramente -->
 
             <button type="submit">Buscar</button>
@@ -169,15 +181,25 @@
             {% if viagens %}
                 {% for viagem in viagens %}
                     <div class="card">
-                        <strong>{{ viagem.barco.nome }}</strong><br>
-                        De: {{ viagem.origem }} Para: {{ viagem.destino }}<br>
-                        Saída: {{ viagem.data_partida.strftime('%d/%m/%Y') }} às {{ viagem.hora_partida.strftime('%H:%M') }}<br>
-                        Preço: R$ {{ viagem.preco_passagem }}<br>
-                        Tipo: {{ viagem.barco.tipo or "Barco" }}<br>
-                        
-                        <button onclick="abrirModalCompra({{ viagem.id }})">Comprar</button>
+                        <div style="flex: 1;">
+                            <strong>{{ viagem.barco.nome }}</strong><br>
+                            De: {{ viagem.origem }} Para: {{ viagem.destino }}<br>
+                            Saída: {{ viagem.data_partida.strftime('%d/%m/%Y') }} às {{ viagem.hora_partida.strftime('%H:%M') }}<br>
+                            Preço: R$ {{ '%.2f'|format(viagem.preco_passagem) }}<br>
+                            Tipo: {{ viagem.tipo_embarcacao or "Barco" }}<br><br>
 
+                            <button onclick="abrirModalCompra({{ viagem.id }})">Comprar</button>
+                        </div>
+
+                        {% if viagem.imagem_embarcacao %}
+                            <div style="flex-shrink: 0;">
+                                <img src="{{ url_for('static', filename='imagens_embarcacoes/' ~ viagem.imagem_embarcacao) }}"
+                                    alt="Imagem da embarcação"
+                                    style="max-width: 200px; max-height: 150px; border-radius: 8px;">
+                            </div>
+                        {% endif %}
                     </div>
+
                 {% endfor %}
             {% else %}
                 <p>Nenhuma viagem encontrada.</p>
@@ -187,7 +209,7 @@
 </div>
 
 <!-- Modal de Compra -->
-<div id="modalCompra" style="display: none;">
+<div id="modalCompra">
     <form method="POST" action="{{ url_for('comprar_passagem') }}">
         <input type="hidden" name="viagem_id" id="viagem_id">
         <label>Nome do Passageiro:</label>
@@ -202,11 +224,11 @@
 <script>
     function abrirModalCompra(viagemId) {
         document.getElementById("viagem_id").value = viagemId;
-        document.getElementById("modalCompra").style.display = "block";
+        document.getElementById("modalCompra").classList.add("ativo");
     }
 
     function fecharModalCompra() {
-        document.getElementById("modalCompra").style.display = "none";
+        document.getElementById("modalCompra").classList.remove("ativo");
     }
 </script>
 

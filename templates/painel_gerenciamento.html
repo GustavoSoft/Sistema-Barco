@@ -3,24 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <title>Painel de Gerenciamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .viagem-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .viagem-info {
+            flex: 1;
+        }
+
+        .viagem-info p {
+            margin: 6px 0;
+        }
+
+        .imagem-barco img {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .botoes {
+            margin-top: 15px;
+        }
+
+        .botao-remover,
+        .botao-editar {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .botao-remover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .botao-remover:hover {
+            background-color: #c82333;
+        }
+
+        .botao-editar {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .botao-editar:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h2>Painel de Gerenciamento de Viagens</h2>
 
     {% for v in viagens %}
-        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
-            <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
-            <p><strong>Origem:</strong> {{ v.origem }}</p>
-            <p><strong>Destino:</strong> {{ v.destino }}</p>
-            <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
-            <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
+        <div class="viagem-card">
+            <div class="viagem-info">
+                <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
+                <p><strong>Origem:</strong> {{ v.origem }}</p>
+                <p><strong>Destino:</strong> {{ v.destino }}</p>
+                <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
+                <p><strong>Horário:</strong> {{ v.hora_partida.strftime('%H:%M') }}</p>
+                <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
 
-            <form method="POST" action="{{ url_for('remover_viagem', id=v.id) }}" style="display:inline;">
-                <button type="submit" onclick="return confirm('Tem certeza que deseja remover esta viagem?')">Remover</button>
-            </form>
+                <div class="botoes">
+                    <form method="POST" action="{{ url_for('remover_viagem', id=v.id) }}" style="display:inline;">
+                        <button type="submit" class="botao-remover" onclick="return confirm('Tem certeza que deseja remover esta viagem?')">Remover</button>
+                    </form>
 
-            <a href="{{ url_for('editar_viagem', id=v.id) }}">Editar</a>
+                    <a href="{{ url_for('editar_viagem', id=v.id) }}" class="botao-editar">Editar</a>
+                </div>
+            </div>
+
+            {% if v.imagem_embarcacao %}
+                <div class="imagem-barco" style="margin-left: 20px;">
+                    <img src="{{ url_for('static', filename='imagens_embarcacoes/' + v.imagem_embarcacao) }}" alt="Imagem da embarcação">
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
 </body>
 </html>
+

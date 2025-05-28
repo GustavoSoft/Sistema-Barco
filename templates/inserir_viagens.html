@@ -39,6 +39,13 @@
        button:hover {
            background-color: #0077aa;
        }
+
+       img {
+            border: 1px solid #ccc;
+            padding: 5px;
+            max-height: 200px;
+        }
+
     </style>
 </head>
 <body>
@@ -47,7 +54,7 @@
     <h2>Cadastro de viagem</h2>
     
     <!-- FORMULÁRIO que envia os dados para o Flask -->
-    <form method="POST" action="{{ url_for('cadastrar_viagem') }}">
+    <form method="POST" action="{{ url_for('cadastrar_viagem') }}" enctype="multipart/form-data">
         <label for="nomeBarco">Nome do Barco:</label>
         <input type="text" id="nomeBarco" name="nomeBarco" required>
 
@@ -72,6 +79,12 @@
         <label for="preco">Preço da Viagem:</label>
         <input type="number" id="preco" name="preco" step="0.01" required>
 
+        <label>Tipo da Embarcação:</label>
+        <input type="text" name="tipo_embarcacao" placeholder="Ex: Lancha, Balsa, Voadeira">
+
+        <label>Imagem da Embarcação:</label>
+        <input type="file" name="imagem_embarcacao" accept="image/*">
+
         <button type="submit">Cadastrar Viagem</button>
     </form>
 
@@ -79,15 +92,30 @@
     <h3 style="text-align: center; margin-top: 40px;">Gerenciar Viagens</h3>
     <div style="max-width: 700px; margin: 0 auto;">
         {% for v in viagens %}
-            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
-                <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
-                <p><strong>Origem:</strong> {{ v.origem }}</p>
-                <p><strong>Destino:</strong> {{ v.destino }}</p>
-                <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
-                <p><strong>Horário:</strong> {{ v.hora_partida.strftime('%H:%M') }}</p>
-                <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
+            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                
+                <!-- Coluna esquerda: Informações -->
+                <div style="flex: 1;">
+                    <p><strong>Barco:</strong> {{ v.barco.nome }}</p>
+                    <p><strong>Origem:</strong> {{ v.origem }}</p>
+                    <p><strong>Destino:</strong> {{ v.destino }}</p>
+                    <p><strong>Data:</strong> {{ v.data_partida.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Horário:</strong> {{ v.hora_partida.strftime('%H:%M') }}</p>
+                    <p><strong>Preço:</strong> R$ {{ '%.2f'|format(v.preco_passagem) }}</p>
+                    <p><strong>Tipo da Embarcação:</strong> {{ v.tipo_embarcacao or 'Não informado' }}</p>
+                </div>
+
+                <!-- Coluna direita: Imagem -->
+                {% if v.imagem_embarcacao %}
+                <div style="flex-shrink: 0;">
+                    <img src="{{ url_for('static', filename='imagens_embarcacoes/' + v.imagem_embarcacao) }}"
+                        alt="Imagem da embarcação"
+                        style="max-height: 200px; border: 1px solid #ccc; padding: 5px;">
+                </div>
+                {% endif %}
             </div>
         {% endfor %}
+
     </div>
 {% endif %}
 

@@ -3,24 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Viagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        img {
+            display: block;
+            margin: 10px auto 20px auto;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Editar Viagem</h2>
-    <form method="POST">
-        <label>Origem:</label><br>
-        <input type="text" name="origem" value="{{ viagem.origem }}"><br><br>
+    <div class="container">
+        <h2>Editar Viagem</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label>Nome do Barco:</label>
+            <input type="text" name="nome_barco" value="{{ viagem.barco.nome }}">
 
-        <label>Destino:</label><br>
-        <input type="text" name="destino" value="{{ viagem.destino }}"><br><br>
+            <label>Origem:</label>
+            <input type="text" name="origem" value="{{ viagem.origem }}">
 
-        <label>Data de Partida:</label><br>
-        <input type="date" name="data_partida" value="{{ viagem.data_partida.strftime('%Y-%m-%d') }}"><br><br>
+            <label>Destino:</label>
+            <input type="text" name="destino" value="{{ viagem.destino }}">
 
-        <label>Preço da Passagem:</label><br>
-        <input type="number" step="0.01" name="preco_passagem" value="{{ viagem.preco_passagem }}"><br><br>
+            <label>Data de Partida:</label>
+            <input type="date" name="data_partida" value="{{ viagem.data_partida.strftime('%Y-%m-%d') }}">
 
-        <button type="submit">Salvar Alterações</button>
-    </form>
-    <a href="{{ url_for('painel_gerenciamento') }}">Voltar</a>
+            <label>Horário de Partida:</label>
+            <input type="time" name="horario_partida" value="{{ viagem.hora_partida.strftime('%H:%M') if viagem.hora_partida else '' }}">
+
+            <label>Preço da Passagem:</label>
+            <input type="number" step="0.01" name="preco_passagem" value="{{ '%.2f'|format(viagem.preco_passagem) }}">
+
+            <label>Imagem da Embarcação:</label>
+            {% if viagem.imagem_embarcacao %}
+                <img src="{{ url_for('static', filename='imagens_embarcacoes/' + viagem.imagem_embarcacao) }}" alt="Imagem da Embarcação">
+            {% endif %}
+            <input type="file" name="imagem_embarcacao">
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+
+        <a class="back-link" href="{{ url_for('painel_gerenciamento') }}">← Voltar ao Painel</a>
+    </div>
 </body>
 </html>
+
