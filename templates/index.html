@@ -20,7 +20,7 @@
                         </button>
                         <div id="menu-dropdown" class="dropdown-menu" style="display: none;">
                             {% if session.get('usuario_tipo') == 'dono_barco' %}
-                                <a href="{{ url_for('gerenciar_viagens') }}">Gerenciar Viagens</a>
+                                <a href="{{ url_for('gerenciar_viagens') }}">Cadastrar Viagem</a>
                                 <a href="{{ url_for('painel_gerenciamento') }}">Painel de Gerenciamento</a>
                             {% endif %}
                             <a href="/ver-passagens">Ver Passagens</a>
@@ -204,19 +204,19 @@
 
     <section class="secoes">
         <div class="secao">
-            <img src="caminho/da-imagem1.jpg" alt="Imagem 1">
+            <img src="{{ url_for('static', filename='img/imagem_barco.png') }}" alt="Imagem 1">
             <h3>Cadastre seus barcos e viagens</h3>
             <p>No nosso sistema as próprias empresas podem se cadastrar e inserir suas opções de viagem.</p>
         </div>
   
         <div class="secao">
-            <img src="caminho/da-imagem2.jpg" alt="Imagem 2">
-            <h3>Compre suas passagens aqui</h3>
+            <img src="{{ url_for('static', filename='img/ticket_barco-2.png') }}" alt="Imagem 2">
+            <h3>Compre sua passagem aqui</h3>
             <p>Em nosso site, você pode comprar sua passagens de barco de forma prática e eficiente.</p>
         </div>
   
         <div class="secao">
-            <img src="caminho/da-imagem3.jpg" alt="Imagem 3">
+            <img src="{{ url_for('static', filename='img/ticket_barco-3.png') }}" alt="Imagem 3">
             <h3>Visualize e gerencie suas passagens</h3>
             <p>Acompanhe todas as suas compras de passagens no nosso sistema. Cancele quando necessário e mantenha o controle de suas viagens de forma simples.</p>
         </div>

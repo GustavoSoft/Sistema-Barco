@@ -267,7 +267,7 @@
 }
 
 .secao img {
-  width: 100%;
+  width: 50%;
   border-radius: 10px 10px 0 0;
   height: 180px;
   object-fit: cover;
@@ -309,7 +309,7 @@
     width: 100%;
 }
 
-.filtro-container select,
+.filtro-container input,
 .filtro-container button {
     padding: 12px 16px;
     font-size: 16px;

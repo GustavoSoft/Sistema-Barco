@@ -15,8 +15,6 @@ class Barco(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     capacidade = db.Column(db.Integer, nullable=False)
-    tipo_embarcacao = db.Column(db.String(100))  # Novo campo
-    imagem_embarcacao = db.Column(db.String(255))  # Novo campo
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=True)
     viagens = db.relationship('Viagem', backref='barco', lazy=True) # RELACIONAMENTO: um barco pode ter várias viagens
 
